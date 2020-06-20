@@ -1,29 +1,30 @@
 import { Router, Request, Response } from 'express'
-import { startOfHour, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
 import AppointmentRepository from '../repositories/AppointmentRepository'
+import CreateAppointmentService from '../services/CreateAppointmentService'
 
 const appointmentRoutes = Router()
 const appointmentRepository = new AppointmentRepository()
 
 appointmentRoutes.post('/', (request: Request, response: Response) => {
-    const { provider, date } = request.body
+    try {
+        const { provider, date } = request.body
 
-    const parsedDate = startOfHour(parseISO(date))
+        const parsedDate = parseISO(date)
 
-    const slotInUse = appointmentRepository.findByDate(parsedDate)
+        const createAppointment = new CreateAppointmentService(
+            appointmentRepository
+        )
 
-    if (slotInUse) {
-        return response
-            .status(409)
-            .json({ message: 'Slot has already been allocated!' })
+        const appointment = createAppointment.execute({
+            provider,
+            date: parsedDate
+        })
+
+        return response.json(appointment)
+    } catch (err) {
+        return response.status(409).json({ error: err.message })
     }
-
-    const appointment = appointmentRepository.create({
-        provider,
-        date: parsedDate
-    })
-
-    return response.json(appointment)
 })
 
 appointmentRoutes.get('/', (request: Request, response: Response) => {
