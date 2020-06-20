@@ -18,7 +18,10 @@ appointmentRoutes.post('/', (request: Request, response: Response) => {
             .json({ message: 'Slot has already been allocated!' })
     }
 
-    const appointment = appointmentRepository.create(provider, parsedDate)
+    const appointment = appointmentRepository.create({
+        provider,
+        date: parsedDate
+    })
 
     return response.json(appointment)
 })
