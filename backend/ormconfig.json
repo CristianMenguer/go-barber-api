@@ -7,8 +7,7 @@
     "database": "go-barber",
     "entities": [
         "./src/models/*.ts"
-    ],
-    "migrations": [
+    ], "migrations": [
         "./src/database/migrations/*.ts"
     ],
     "cli": {
