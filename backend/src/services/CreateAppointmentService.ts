@@ -1,6 +1,8 @@
+import { startOfHour } from 'date-fns'
+import { getCustomRepository } from 'typeorm'
+
 import Appointment from '../models/Appointment'
 import AppointmentRepository from '../repositories/AppointmentRepository'
-import { startOfHour } from 'date-fns'
 
 interface RequestDTO {
     provider: string
@@ -8,25 +10,25 @@ interface RequestDTO {
 }
 
 class CreateAppointmentService {
-    private appointmentRepository: AppointmentRepository
+    public async execute({ provider, date }: RequestDTO): Promise<Appointment> {
+        const appointmentRepository = getCustomRepository(AppointmentRepository)
 
-    constructor(appointmentRepository: AppointmentRepository) {
-        this.appointmentRepository = appointmentRepository
-    }
-
-    public execute({ provider, date }: RequestDTO): Appointment {
         const appointmentDate = startOfHour(date)
 
-        const slotInUse = this.appointmentRepository.findByDate(appointmentDate)
+        const slotInUse = await appointmentRepository.findByDate(
+            appointmentDate
+        )
 
         if (slotInUse) {
             throw Error('Slot has already been allocated!')
         }
 
-        const appointment = this.appointmentRepository.create({
+        const appointment = appointmentRepository.create({
             provider,
             date: appointmentDate
         })
+
+        await appointmentRepository.save(appointment)
 
         return appointment
     }
