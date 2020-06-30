@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm'
 
 import Appointment from '../models/Appointment'
 import AppointmentRepository from '../repositories/AppointmentRepository'
+import AppError from '../errors/AppError'
 
 interface RequestDTO {
     provider_id: string
@@ -23,7 +24,7 @@ class CreateAppointmentService {
         )
 
         if (slotInUse) {
-            throw Error('Slot has already been allocated!')
+            throw new AppError('Slot has already been allocated!')
         }
 
         const appointment = appointmentRepository.create({
