@@ -30,10 +30,11 @@ _In progress..._
 
 ## Getting started
 
-1. Clone this repo using `https://github.com/cristianmenguer/go-barber-api.git`
+1. Clone this repo using `git clone https://github.com/cristianmenguer/go-barber-api.git`
 2. Move to the appropriate directory: `cd go-barber-api`.<br />
 3. Run `yarn install` to install dependencies.<br />
-6. Run `yarn start` to run the servers at `http://localhost:3000`.
+4. Run `docker run --name go-barber-postgres -e POSTGRES_PASSWORD=go-barber -p 5432:5432 -d postgres`
+6. Run `yarn dev:server` to run the servers at `http://localhost:3000`.
 
 ## Contributing
 
@@ -41,4 +42,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
