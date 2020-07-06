@@ -20,7 +20,7 @@ A Node.js API built with Express and all the latest tools and best practices in 
 
 ## Dependencies
 
-- [Node.js](https://nodejs.org/en/) 8.0.0 ou >
+- [Node.js](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/pt-BR/docs/install)
 - [Docker](https://www.docker.com/)
 
@@ -29,7 +29,6 @@ A Node.js API built with Express and all the latest tools and best practices in 
 _In progress..._
 
 ## Getting started
-
 
 1. Clone this repo using `https://github.com/cristianmenguer/go-barber-api.git`
 2. Move to the appropriate directory: `cd go-barber-api`.<br />
