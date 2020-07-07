@@ -34,7 +34,9 @@ _In progress..._
 2. Move to the appropriate directory: `cd go-barber-api`.<br />
 3. Run `yarn install` to install dependencies.<br />
 4. Run `docker run --name go-barber-postgres -e POSTGRES_PASSWORD=go-barber -p 5432:5432 -d postgres`
-6. Run `yarn dev:server` to run the servers at `http://localhost:3000`.
+5. Create database `go-barber`
+6. Run `yarn typeorm migration:run`
+7. Run `yarn dev:server` to run the servers at `http://localhost:3333`.
 
 ## Contributing
 
