@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
+        "dev:server": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
     },
     "dependencies": {
@@ -32,7 +32,7 @@
         "eslint-import-resolver-typescript": "^2.0.0",
         "eslint-plugin-prettier": "^3.1.4",
         "prettier": "^2.0.5",
-        "ts-node-dev": "^1.0.0-pre.49",
-        "typescript": "^3.9.5"
+        "ts-node-dev": "^1.0.0-pre.52",
+        "typescript": "^3.9.7"
     }
 }

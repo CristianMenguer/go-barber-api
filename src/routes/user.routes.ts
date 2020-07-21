@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import CreateUserService from '../services/CreateUserService'
 import UpdateUserAvatarService from '../services/UpdateUserAvatarService'
-import { getRepository, getCustomRepository } from 'typeorm'
+import { getRepository } from 'typeorm'
 import multer from 'multer'
 import uploadConfig from '../config/upload'
 
