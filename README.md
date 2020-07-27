@@ -14,19 +14,20 @@ GoBarber
 
 A Node.js API built with Express and all the latest tools and best practices in development!
 
-- ⚡ **Express** — A web framework for Node
-- 💾 **TypeORM** — ORM for Node.js
-- 💖 **Lint** — ESlint/Prettier/Editor Config
+- **Express** — A web framework for Node
+- **TypeORM** — ORM for Node.js
+- **Lint** — ESlint/Prettier/Editor Config
+- **Cors** — Node.js package for providing a Connect/Express middleware
+- **JWT** — An implementation of JSON Web Tokens
+- **Multer** — Node.js middleware for handling multipart/form-data
+- **uuid4** — Node.js module for generating and validation V4 UUIDs
 
 ## Dependencies
 
+- [Git](API)
 - [Node.js](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/pt-BR/docs/install)
 - [Docker](https://www.docker.com/)
-
-## Prerequisites
-
-_In progress..._
 
 ## Getting started
 
