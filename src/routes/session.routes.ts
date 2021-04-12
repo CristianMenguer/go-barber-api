@@ -13,6 +13,7 @@ sessionRoutes.post('/', async (request: Request, response: Response) => {
         password
     })
 
+    // @ts-ignore
     delete user.password
 
     return response.json({ user, token })

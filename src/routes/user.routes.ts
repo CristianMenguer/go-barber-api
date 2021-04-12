@@ -25,6 +25,7 @@ userRoutes.post('/', async (request: Request, response: Response) => {
             password
         })
 
+        // @ts-ignore
         delete user.password
 
         return response.json(user)
@@ -52,6 +53,7 @@ userRoutes.patch(
             filename: request.file.filename
         })
 
+        // @ts-ignore
         delete user.password
 
         return response.json(user)
