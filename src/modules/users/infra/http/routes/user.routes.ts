@@ -1,23 +1,23 @@
 import { Router, Request, Response } from 'express'
 import CreateUserService from '@modules/users/services/CreateUserService'
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService'
-import { getRepository } from 'typeorm'
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository'
 import multer from 'multer'
 import uploadConfig from '@config/upload'
 
-import User from '@modules/users/infra/typeorm/entities/User'
+// import User from '@modules/users/infra/typeorm/entities/User'
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated'
 
 const userRoutes = Router()
-
 const upload = multer(uploadConfig)
 
 userRoutes.post('/', async (request: Request, response: Response) => {
     try {
         const { name, email, password } = request.body
 
-        const createUser = new CreateUserService()
+        const usersRepository = new UsersRepository()
+        const createUser = new CreateUserService(usersRepository)
 
         const user = await createUser.execute({
             name,
@@ -34,19 +34,20 @@ userRoutes.post('/', async (request: Request, response: Response) => {
     }
 })
 
-userRoutes.get('/', async (request: Request, response: Response) => {
-    const userRepository = getRepository(User)
-    const users = await userRepository.find()
+// userRoutes.get('/', async (request: Request, response: Response) => {
+//     const userRepository = getRepository(User)
+//     const users = await userRepository.find()
 
-    return response.json(users)
-})
+//     return response.json(users)
+// })
 
 userRoutes.patch(
     '/avatar',
     ensureAuthenticated,
     upload.single('avatar'),
     async (request: Request, response: Response) => {
-        const updateAvatarService = new UpdateUserAvatarService()
+        const usersRepository = new UsersRepository()
+        const updateAvatarService = new UpdateUserAvatarService(usersRepository)
 
         const user = await updateAvatarService.execute({
             user_id: request.user.id,

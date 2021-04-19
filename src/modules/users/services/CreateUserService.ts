@@ -1,22 +1,25 @@
-import { getRepository } from 'typeorm'
 import { hash } from 'bcryptjs'
 
 import User from '@modules/users/infra/typeorm/entities/User'
+import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
+import IUsersRepository from '@modules/users/repositories/IUsersRepository'
 import AppError from '@shared/errors/AppError'
 
-interface RequestDTO {
+interface IRequestDTO {
     name: string
     email: string
     password: string
 }
 
 class CreateUserService {
-    public async execute({ name, email, password }: RequestDTO): Promise<User> {
-        const userRepository = getRepository(User)
+    constructor(private userRepository: IUsersRepository) {}
 
-        const userByEmail = await userRepository.findOne({
-            where: { email }
-        })
+    public async execute({
+        name,
+        email,
+        password
+    }: ICreateUserDTO): Promise<User> {
+        const userByEmail = await this.userRepository.findByEmail(email)
 
         if (userByEmail) {
             throw new AppError('Email address has already been registered!')
@@ -24,13 +27,11 @@ class CreateUserService {
 
         const hashedPassword = await hash(password, 8)
 
-        const user = userRepository.create({
+        const user = await this.userRepository.create({
             name,
             email,
             password: hashedPassword
         })
-
-        await userRepository.save(user)
 
         return user
     }
