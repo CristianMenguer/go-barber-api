@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express'
-import CreateUserService from '@modules/users/services/CreateUserService'
-import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService'
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository'
+import { Router } from 'express'
 import multer from 'multer'
+
 import uploadConfig from '@config/upload'
+import UsersController from '@modules/users/infra/http/controllers/UsersController'
+import UserAvatarController from '@modules/users/infra/http/controllers/UserAvatarController'
 
 // import User from '@modules/users/infra/typeorm/entities/User'
 
@@ -11,28 +11,10 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 
 const userRoutes = Router()
 const upload = multer(uploadConfig)
+const usersController = new UsersController()
+const userAvatarController = new UserAvatarController()
 
-userRoutes.post('/', async (request: Request, response: Response) => {
-    try {
-        const { name, email, password } = request.body
-
-        const usersRepository = new UsersRepository()
-        const createUser = new CreateUserService(usersRepository)
-
-        const user = await createUser.execute({
-            name,
-            email,
-            password
-        })
-
-        // @ts-ignore
-        delete user.password
-
-        return response.json(user)
-    } catch (err) {
-        return response.status(409).json({ error: err.message })
-    }
-})
+userRoutes.post('/', usersController.create)
 
 // userRoutes.get('/', async (request: Request, response: Response) => {
 //     const userRepository = getRepository(User)
@@ -45,20 +27,7 @@ userRoutes.patch(
     '/avatar',
     ensureAuthenticated,
     upload.single('avatar'),
-    async (request: Request, response: Response) => {
-        const usersRepository = new UsersRepository()
-        const updateAvatarService = new UpdateUserAvatarService(usersRepository)
-
-        const user = await updateAvatarService.execute({
-            user_id: request.user.id,
-            filename: request.file.filename
-        })
-
-        // @ts-ignore
-        delete user.password
-
-        return response.json(user)
-    }
+    userAvatarController.update
 )
 
 export default userRoutes
